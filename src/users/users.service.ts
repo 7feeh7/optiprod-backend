@@ -23,13 +23,11 @@ export class UsersService {
   }
 
   async findAll() {
-    return await this.userModel.find();
+    return await this.userModel.find({}, { password: 0 });
   }
 
   async findOne(id: string) {
-    const user = await this.userModel.findById({ _id: id });
-    delete user.password;
-    return user;
+    return await this.userModel.findById({ _id: id }, { password: 0 });
   }
 
   async update(id: string, updateUserDto: UpdateUserDto) {

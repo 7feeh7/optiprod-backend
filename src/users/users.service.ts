@@ -3,7 +3,7 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { User, UserDocument } from './entities/user.entity';
-import { Model } from 'mongoose';
+import { Model, RootFilterQuery } from 'mongoose';
 import { hashPassword } from 'src/helpers/bcrypt.helper';
 
 @Injectable()
@@ -26,8 +26,8 @@ export class UsersService {
     return await this.userModel.find({}, { password: 0 });
   }
 
-  async findOne(id: string) {
-    return await this.userModel.findById({ _id: id }, { password: 0 });
+  async findOne(conditions: RootFilterQuery<UserDocument>) {
+    return await this.userModel.findOne(conditions);
   }
 
   async update(id: string, updateUserDto: UpdateUserDto) {
